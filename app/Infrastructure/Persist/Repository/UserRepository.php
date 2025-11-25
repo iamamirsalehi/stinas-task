@@ -11,4 +11,6 @@ interface UserRepository
     public function getByUserName(string $username): User;
 
     public function existsByUsername(string $username): bool;
+
+    public function getByID(int $id): User;
 }

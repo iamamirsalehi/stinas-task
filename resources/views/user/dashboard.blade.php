@@ -6,7 +6,7 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="mb-6 flex justify-between items-center">
         <h1 class="text-2xl font-semibold">My Tickets</h1>
-        <a href="{{ route('tickets.create') }}" class="px-4 py-2 bg-[#1b1b18] dark:bg-[#eeeeec] text-white dark:text-[#1C1C1A] hover:bg-black dark:hover:bg-white border border-black dark:border-[#eeeeec] dark:hover:border-white rounded-sm font-medium transition-colors">
+        <a href="{{ route('dashboard.tickets.create.show') }}" class="px-4 py-2 bg-[#1b1b18] dark:bg-[#eeeeec] text-white dark:text-[#1C1C1A] hover:bg-black dark:hover:bg-white border border-black dark:border-[#eeeeec] dark:hover:border-white rounded-sm font-medium transition-colors">
             Create New Ticket
         </a>
     </div>
@@ -48,7 +48,7 @@
                     @empty
                         <tr>
                             <td colspan="3" class="px-6 py-8 text-center text-sm text-[#706f6c] dark:text-[#A1A09A]">
-                                No tickets yet. <a href="{{ route('tickets.create') }}" class="text-[#f53003] dark:text-[#FF4433] hover:underline">Create your first ticket</a>
+                                No tickets yet. <a href="{{ route('dashboard.tickets.create.show') }}" class="text-[#f53003] dark:text-[#FF4433] hover:underline">Create your first ticket</a>
                             </td>
                         </tr>
                     @endforelse

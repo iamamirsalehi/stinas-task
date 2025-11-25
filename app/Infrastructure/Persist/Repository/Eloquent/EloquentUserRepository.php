@@ -15,7 +15,7 @@ class EloquentUserRepository extends EloquentBaseRepository implements UserRepos
 
     public function getByUserName(string $username): User
     {
-        $user = $this->model->query()->where("username", $username)->first();
+        $user = $this->model->query()->where('username', $username)->first();
         if (is_null($user)){
             throw UserBusinessException::userDoesNotExist();
         }
@@ -25,6 +25,16 @@ class EloquentUserRepository extends EloquentBaseRepository implements UserRepos
 
     public function existsByUsername(string $username): bool
     {
-        return $this->model->where("username", $username)->exists();
+        return $this->model->where('username', $username)->exists();
+    }
+
+    public function getByID(int $id): User
+    {
+        $user = $this->model->query()->where('id', $id)->first();
+        if (is_null($user)){
+            throw UserBusinessException::userDoesNotExist();
+        }
+
+        return $user;
     }
 }

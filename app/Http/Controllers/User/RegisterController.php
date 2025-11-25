@@ -29,7 +29,7 @@ class RegisterController extends Controller
 
             $this->loginSessionGenerator->login($user);
 
-            return redirect()->route('dashboard')
+            return redirect()->route('dashboard.')
                 ->with('success', 'You have been successfully registered!');
         }catch(BusinessException $exception){
             return redirect()->back()
