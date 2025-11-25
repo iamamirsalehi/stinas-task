@@ -37,14 +37,12 @@
                             </form>
                         @endif
                     @else
-                        <a href="{{ route('login') }}" class="text-sm px-4 py-2 border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm">
+                        <a href="{{ route('auth.login.show') }}" class="text-sm px-4 py-2 border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm">
                             Log in
                         </a>
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="text-sm px-4 py-2 border border-[#19140035] dark:border-[#3E3E3A] hover:border-[#1915014a] dark:hover:border-[#62605b] rounded-sm">
+                            <a href="{{ route('auth.register.show') }}" class="text-sm px-4 py-2 border border-[#19140035] dark:border-[#3E3E3A] hover:border-[#1915014a] dark:hover:border-[#62605b] rounded-sm">
                                 Register
                             </a>
-                        @endif
                     @endauth
                 </div>
             </div>

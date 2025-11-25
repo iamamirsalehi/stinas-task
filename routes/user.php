@@ -4,23 +4,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\LoginController;
 use App\Http\Controllers\User\RegisterController;
 
-Route::get('/register', function () {
-    return view('auth.register');
-})->name('register.show');
+Route::name('auth.')->group(function (){
+    Route::view('register', 'auth.register')->name('register.show');
+    Route::post('register', RegisterController::class)->name('register');
+    
+    Route::view('login', 'auth.login')->name('login.show');
+    Route::post('login', LoginController::class)->name('login');
+});
 
-Route::post('/register', RegisterController::class)->name('register');
-
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login.show');
-
-Route::post('/login', LoginController::class)->name('login');
-
-Route::get('/dashboard', function () {
-    return view('user.dashboard');
-})->name('user.dashboard');
-
-Route::get('/tickets/create', function () {
-    return view('user.tickets.create');
-})->name('tickets.create');
-
+Route::prefix('dashboard.')->name('dashboard')->group(function (){
+    Route::view('','user.dashboard');
+    Route::view('tickets/create', 'user.tickets.create')->name('tickets.create.show');
+});
