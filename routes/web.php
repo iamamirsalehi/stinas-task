@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\LoginController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -13,6 +14,8 @@ Route::get('/register', function () {
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
+
+Route::post('/login', LoginController::class)->name('login');
 
 Route::get('/dashboard', function () {
     return view('user.dashboard');
@@ -36,3 +39,5 @@ Route::get('/admin/tickets/{id}', function ($id) {
 
 Route::post('')->name('tickets.store');
 Route::post('')->name('admin.tickets.bulk-action');
+Route::post('{id}/app')->name('admin.tickets.approve');
+Route::post('{id}/re')->name('admin.tickets.reject');
