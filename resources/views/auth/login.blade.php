@@ -7,7 +7,7 @@
     <div class="bg-white dark:bg-[#161615] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] rounded-lg p-8">
         <h1 class="text-2xl font-semibold mb-6">Login</h1>
 
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('auth.login') }}">
             @csrf
 
             <div class="mb-4">
@@ -50,7 +50,7 @@
 
         <p class="mt-4 text-sm text-center text-[#706f6c] dark:text-[#A1A09A]">
             Don't have an account? 
-            <a href="{{ route('register') }}" class="text-[#f53003] dark:text-[#FF4433] hover:underline">Register</a>
+            <a href="{{ route('auth.register.show') }}" class="text-[#f53003] dark:text-[#FF4433] hover:underline">Register</a>
         </p>
     </div>
 </div>

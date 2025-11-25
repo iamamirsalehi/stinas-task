@@ -26,28 +26,42 @@
                 <div class="flex items-center gap-4">
                     @auth
                         <span class="text-sm text-[#706f6c] dark:text-[#A1A09A]">
-                            {{ auth()->user()->name ?? 'User' }}
+                            {{ auth()->user()->username ?? 'User' }}
                         </span>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="text-sm px-4 py-2 border border-[#19140035] dark:border-[#3E3E3A] hover:border-[#1915014a] dark:hover:border-[#62605b] rounded-sm">
-                                Logout
-                            </button>
-                        </form>
+                        @if (Route::has('logout'))
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="text-sm px-4 py-2 border border-[#19140035] dark:border-[#3E3E3A] hover:border-[#1915014a] dark:hover:border-[#62605b] rounded-sm">
+                                    Logout
+                                </button>
+                            </form>
+                        @endif
                     @else
-                        <a href="{{ route('login') }}" class="text-sm px-4 py-2 border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm">
+                        <a href="{{ route('auth.login.show') }}" class="text-sm px-4 py-2 border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm">
                             Log in
                         </a>
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="text-sm px-4 py-2 border border-[#19140035] dark:border-[#3E3E3A] hover:border-[#1915014a] dark:hover:border-[#62605b] rounded-sm">
+                            <a href="{{ route('auth.register.show') }}" class="text-sm px-4 py-2 border border-[#19140035] dark:border-[#3E3E3A] hover:border-[#1915014a] dark:hover:border-[#62605b] rounded-sm">
                                 Register
                             </a>
-                        @endif
                     @endauth
                 </div>
             </div>
         </div>
     </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+        @if(session('success'))
+            <div class="mb-4 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-sm">
+                <p class="text-sm text-green-800 dark:text-green-300">{{ session('success') }}</p>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-sm">
+                <p class="text-sm text-red-800 dark:text-red-300">{{ session('error') }}</p>
+            </div>
+        @endif
+    </div>
 
     <main class="py-8">
         @yield('content')
