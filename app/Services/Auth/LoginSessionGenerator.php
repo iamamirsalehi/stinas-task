@@ -3,16 +3,16 @@
 namespace App\Services\Auth;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Auth\Factory as AuthFactory;
 
 class LoginSessionGenerator
 {
-    public function __construct(private Auth $auth)
+    public function __construct(private AuthFactory $auth)
     {
     }
 
     public function login(User $user): void
     {
-        $this->auth->login($user);
+        $this->auth->guard()->login($user);
     }
 }

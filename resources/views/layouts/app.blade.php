@@ -26,14 +26,16 @@
                 <div class="flex items-center gap-4">
                     @auth
                         <span class="text-sm text-[#706f6c] dark:text-[#A1A09A]">
-                            {{ auth()->user()->name ?? 'User' }}
+                            {{ auth()->user()->username ?? 'User' }}
                         </span>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="text-sm px-4 py-2 border border-[#19140035] dark:border-[#3E3E3A] hover:border-[#1915014a] dark:hover:border-[#62605b] rounded-sm">
-                                Logout
-                            </button>
-                        </form>
+                        @if (Route::has('logout'))
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="text-sm px-4 py-2 border border-[#19140035] dark:border-[#3E3E3A] hover:border-[#1915014a] dark:hover:border-[#62605b] rounded-sm">
+                                    Logout
+                                </button>
+                            </form>
+                        @endif
                     @else
                         <a href="{{ route('login') }}" class="text-sm px-4 py-2 border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm">
                             Log in

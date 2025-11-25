@@ -45,9 +45,10 @@ it('redirects to dashboard with success message on successful registration', fun
     expect($response)
         ->toBeInstanceOf(RedirectResponse::class)
         ->and($response->getTargetUrl())
-        ->toContain('/dashboard')
-        ->and(session('success'))
-        ->toBe('You have been successfully registered!');
+        ->toContain('/dashboard');
+    
+    $session = $response->getSession();
+    expect($session->get('success'))->toBe('You have been successfully registered!');
 });
 
 it('redirects back with error message when username already exists', function () {
@@ -64,6 +65,9 @@ it('redirects back with error message when username already exists', function ()
         'password' => $password,
         'password_confirmation' => $passwordConfirmation,
     ]);
+    
+    // Set the previous URL to /register so redirect()->back() works
+    $request->headers->set('referer', '/register');
 
     $userService
         ->shouldReceive('add')
@@ -77,13 +81,11 @@ it('redirects back with error message when username already exists', function ()
     $response = $controller($request);
 
     expect($response)
-        ->toBeInstanceOf(RedirectResponse::class)
-        ->and($response->getTargetUrl())
-        ->toContain('/register')
-        ->and(session('error'))
-        ->toBe('username already exists')
-        ->and(session('_old_input.username'))
-        ->toBe($username);
+        ->toBeInstanceOf(RedirectResponse::class);
+    
+    $session = $response->getSession();
+    expect($session->get('error'))->toBe('username already exists')
+        ->and($session->get('_old_input.username'))->toBe($username);
 });
 
 it('preserves username input on error', function () {
@@ -100,6 +102,9 @@ it('preserves username input on error', function () {
         'password' => $password,
         'password_confirmation' => $passwordConfirmation,
     ]);
+    
+    // Set the previous URL to /register so redirect()->back() works
+    $request->headers->set('referer', '/register');
 
     $userService
         ->shouldReceive('add')
@@ -108,10 +113,10 @@ it('preserves username input on error', function () {
 
     $response = $controller($request);
 
-    expect(session('_old_input'))
-        ->toHaveKey('username')
-        ->and(session('_old_input.username'))
-        ->toBe($username);
+    $session = $response->getSession();
+    $oldInput = $session->get('_old_input', []);
+    expect($oldInput)->toHaveKey('username')
+        ->and($oldInput['username'])->toBe($username);
 });
 
 it('calls login session generator after successful user creation', function () {

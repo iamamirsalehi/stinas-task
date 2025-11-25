@@ -2,16 +2,16 @@
 
 namespace App\Services\Auth;
 
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Hashing\Hasher;
 
 class PasswordMatch
 {
-    public function __construct(private Hash $hash)
+    public function __construct(private Hasher $hasher)
     {
     }
 
     public function isTheSame(string $actual, string $hash): bool
     {
-        return $this->hash->check($actual, $hash);
+        return $this->hasher->check($actual, $hash);
     }
 }

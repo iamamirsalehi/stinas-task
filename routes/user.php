@@ -6,13 +6,13 @@ use App\Http\Controllers\User\RegisterController;
 
 Route::get('/register', function () {
     return view('auth.register');
-})->name('register');
+})->name('register.show');
 
 Route::post('/register', RegisterController::class)->name('register');
 
 Route::get('/login', function () {
     return view('auth.login');
-})->name('login');
+})->name('login.show');
 
 Route::post('/login', LoginController::class)->name('login');
 
