@@ -15,7 +15,7 @@ Route::name('auth.')->middleware('guest')->group(function (){
 });
 
 Route::prefix('dashboard')->name('dashboard.')->middleware('auth')->group(function (){
-    Route::get('',ListTicketController::class);
+    Route::get('',ListTicketController::class)->name('index');
     Route::view('tickets/create', 'user.tickets.create')->name('tickets.create.show');
     Route::post('tickets', AddNewTicketController::class)->name('tickets.create');
 });

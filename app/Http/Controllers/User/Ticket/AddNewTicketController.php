@@ -27,7 +27,7 @@ class AddNewTicketController extends Controller
         try {
             $this->ticketService->add($addNewTicket);
 
-            return redirect()->route('dashboard.')
+            return redirect()->route('dashboard.index')
             ->with('success', 'You have been successfully logged in!');
         } catch(BusinessException $exception){
             return redirect()->back()
