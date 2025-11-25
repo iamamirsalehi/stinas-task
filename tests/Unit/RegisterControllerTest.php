@@ -2,7 +2,7 @@
 
 use App\Exception\BusinessException;
 use App\Exception\UserBusinessException;
-use App\Http\Controllers\User\RegisterController;
+use App\Http\Controllers\User\Auth\RegisterController;
 use App\Http\Requests\User\RegisterRequest;
 use App\Models\User;
 use App\Services\Auth\LoginSessionGenerator;

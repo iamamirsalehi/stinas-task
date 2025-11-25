@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\User\LoginController;
-use App\Http\Controllers\User\RegisterController;
+use App\Http\Controllers\User\Auth\LoginController;
+use App\Http\Controllers\User\Auth\RegisterController;
 use App\Http\Controllers\User\Ticket\AddNewTicketController;
 use App\Http\Controllers\User\Ticket\ListTicketController;
 

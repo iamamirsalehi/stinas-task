@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\User\Auth;
 
 use App\Exception\BusinessException;
 use App\Http\Controllers\Controller;
@@ -38,3 +38,4 @@ class RegisterController extends Controller
         }
     }
 }
+
