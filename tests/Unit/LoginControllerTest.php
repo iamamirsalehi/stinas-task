@@ -5,7 +5,7 @@ use App\Exception\UserBusinessException;
 use App\Http\Controllers\User\LoginController;
 use App\Http\Requests\User\LoginRequest;
 use App\Models\User;
-use App\Services\AuthService\LoginService;
+use App\Services\Auth\LoginService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 

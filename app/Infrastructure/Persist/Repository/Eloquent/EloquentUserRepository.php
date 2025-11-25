@@ -21,5 +21,10 @@ class EloquentUserRepository extends EloquentBaseRepository implements UserRepos
         }
 
         return $user;
-    }   
+    }
+
+    public function existsByUsername(string $username): bool
+    {
+        return $this->model->where("username", $username)->exists();
+    }
 }

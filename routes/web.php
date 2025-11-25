@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\LoginController;
+use App\Http\Controllers\User\RegisterController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -10,6 +11,8 @@ Route::get('/', function () {
 Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
+
+Route::post('/register', RegisterController::class)->name('register');
 
 Route::get('/login', function () {
     return view('auth.login');

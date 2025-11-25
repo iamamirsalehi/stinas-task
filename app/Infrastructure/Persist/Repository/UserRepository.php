@@ -9,4 +9,6 @@ interface UserRepository
     public function save(User $user): void;
 
     public function getByUserName(string $username): User;
+
+    public function existsByUsername(string $username): bool;
 }

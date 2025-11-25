@@ -13,4 +13,9 @@ class UserBusinessException extends BusinessException
     {
         return new self('username or password is invalid');
     }
+
+    public static function usernameAlreadyExists(): self
+    {
+        return new self('username already exists');
+    }
 }
