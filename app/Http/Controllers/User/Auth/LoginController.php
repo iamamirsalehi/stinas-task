@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\User\Auth;
 
 use App\Exception\BusinessException;
 use App\Http\Controllers\Controller;
@@ -23,7 +23,7 @@ class LoginController extends Controller
         try{
             $this->loginService->login($username, $password);
             
-            return redirect()->route('user.dashboard')
+            return redirect()->route('dashboard.')
                 ->with('success', 'You have been successfully logged in!');
         }catch(BusinessException $exception){
             return redirect()->back()
@@ -32,3 +32,4 @@ class LoginController extends Controller
         }
     }
 }
+

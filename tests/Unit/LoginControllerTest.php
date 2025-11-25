@@ -2,7 +2,7 @@
 
 use App\Exception\BusinessException;
 use App\Exception\UserBusinessException;
-use App\Http\Controllers\User\LoginController;
+use App\Http\Controllers\User\Auth\LoginController;
 use App\Http\Requests\User\LoginRequest;
 use App\Models\User;
 use App\Services\Auth\LoginService;
