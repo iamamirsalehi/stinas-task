@@ -2,9 +2,11 @@
 
 namespace App\Services\Ticket;
 
+use App\Exception\TicketException;
 use App\Infrastructure\Persist\Repository\TicketRepository;
 use App\Models\Ticket;
 use App\Services\Attachment\AttachmentService;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class TicketService
 {
@@ -28,5 +30,14 @@ class TicketService
         );
 
         $this->ticketRepository->save($ticket);
+    }
+
+    public function list(int $perPage, int $page): LengthAwarePaginator
+    {
+        if ($perPage > 30){
+            throw TicketException::invalidPerPage();
+        }
+
+        return $this->ticketRepository->list($perPage, $page);
     }
 }

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\LoginController;
 use App\Http\Controllers\User\RegisterController;
 use App\Http\Controllers\User\Ticket\AddNewTicketController;
+use App\Http\Controllers\User\Ticket\ListTicketController;
 
 Route::name('auth.')->middleware('guest')->group(function (){
     Route::view('register', 'auth.register')->name('register.show');
@@ -14,7 +15,7 @@ Route::name('auth.')->middleware('guest')->group(function (){
 });
 
 Route::prefix('dashboard')->name('dashboard.')->middleware('auth')->group(function (){
-    Route::view('','user.dashboard');
+    Route::get('',ListTicketController::class);
     Route::view('tickets/create', 'user.tickets.create')->name('tickets.create.show');
     Route::post('tickets', AddNewTicketController::class)->name('tickets.create');
 });
