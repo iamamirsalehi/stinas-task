@@ -33,8 +33,8 @@ class TicketService
     }
 
     public function list(int $perPage, int $page): LengthAwarePaginator
-    {
-        if ($perPage > 30){
+    {        
+        if ($perPage > 30 || $perPage < 1) {
             throw TicketException::invalidPerPage();
         }
 

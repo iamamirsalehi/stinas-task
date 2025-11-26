@@ -15,6 +15,8 @@ class EloquentTicketRepository extends EloquentBaseRepository implements TicketR
 
     public function list(int $perPage = 10, $page = 1): LengthAwarePaginator
     {
-        return $this->model->query()->paginate($perPage, ['*'], 'page', $page);
+        return $this->model->query()
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage, ['*'], 'page', $page);
     }
 }
