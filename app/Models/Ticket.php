@@ -73,4 +73,9 @@ class Ticket extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function ticketApprove()
+    {
+        return $this->belongsTo(TicketApproveStep::class, 'ticket_approve_id');
+    }
 }

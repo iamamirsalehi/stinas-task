@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Enums\Admin as EnumsAdmin;
 use App\Enums\TicketStatus;
 use App\Models\Admin;
-use App\Models\TicketApprove;
+use App\Models\TicketApproveStep;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -18,7 +18,7 @@ class TicketApproveSeeder extends Seeder
     {
         $admin1 = Admin::query()->where('username', EnumsAdmin::Admin1->value)->first();
 
-        TicketApprove::query()->firstOrCreate([
+        TicketApproveStep::query()->firstOrCreate([
             'admin_id' => $admin1->id,
         ], [
             'order' => 1,
@@ -27,7 +27,7 @@ class TicketApproveSeeder extends Seeder
 
         $admin2 = Admin::query()->where('username', EnumsAdmin::Admin2->value)->first();
 
-        TicketApprove::query()->firstOrCreate([
+        TicketApproveStep::query()->firstOrCreate([
             'admin_id' => $admin2->id,
         ], [
             'order' => 2,

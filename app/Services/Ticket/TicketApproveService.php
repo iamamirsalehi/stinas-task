@@ -2,27 +2,27 @@
 
 namespace App\Services\Ticket;
 
-use App\Infrastructure\Persist\Repository\TicketApproveRepository;
+use App\Infrastructure\Persist\Repository\TicketApproveStepRepository;
 use App\Models\Ticket;
-use App\Models\TicketApprove;
+use App\Models\TicketApproveStep;
 
 class TicketApproveService
 {
     public function __construct(
-        private TicketApproveRepository $ticketApproveRepository,
+        private TicketApproveStepRepository $ticketApproveStepRepository,
     )
     {
     }
 
-    public function getApprove(Ticket $ticket): ?TicketApprove
+    public function getApprove(Ticket $ticket): ?TicketApproveStep
     {
         if (!$ticket->isApproved()){
-            return $this->ticketApproveRepository->getByOrder(1);
+            return $this->ticketApproveStepRepository->getByOrder(1);
         }
 
         $nextApproveOrder = $ticket->ticketApprove->order + 1;
 
-        $nextApprove = $this->ticketApproveRepository->findByOrder($nextApproveOrder);
+        $nextApprove = $this->ticketApproveStepRepository->findByOrder($nextApproveOrder);
 
         return $nextApprove;
     }

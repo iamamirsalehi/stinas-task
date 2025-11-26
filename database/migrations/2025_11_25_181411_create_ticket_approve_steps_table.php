@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ticket_approves', function (Blueprint $table) {
+        Schema::create('ticket_approve_steps', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedTinyInteger('order');
@@ -30,6 +30,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ticket_approves');
+        Schema::dropIfExists('ticket_approve_steps');
     }
 };
+

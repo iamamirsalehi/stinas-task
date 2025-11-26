@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TicketApprove extends Model
+class TicketApproveStep extends Model
 {
     protected $fillable = [
         'admin_id',
@@ -18,3 +18,4 @@ class TicketApprove extends Model
         return $this->is_final == true;
     }
 }
+
