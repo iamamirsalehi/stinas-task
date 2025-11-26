@@ -40,4 +40,9 @@ class Ticket extends Model
 
         return $self;
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
