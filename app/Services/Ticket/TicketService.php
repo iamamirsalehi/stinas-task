@@ -32,13 +32,13 @@ class TicketService
         $this->ticketRepository->save($ticket);
     }
 
-    public function list(int $perPage, int $page): LengthAwarePaginator
+    public function list(int $perPage, int $page, array $statuses = []): LengthAwarePaginator
     {        
         if ($perPage > 30 || $perPage < 1) {
             throw TicketException::invalidPerPage();
         }
 
-        return $this->ticketRepository->list($perPage, $page);
+        return $this->ticketRepository->list($perPage, $page, $statuses);
     }
 
     public function getByID(int $id): Ticket

@@ -14,10 +14,13 @@ class EloquentTicketRepository extends EloquentBaseRepository implements TicketR
         $ticket->save();
     }
 
-    public function list(int $perPage = 10, $page = 1): LengthAwarePaginator
+    public function list(int $perPage = 10, $page = 1, array $statuses = []): LengthAwarePaginator
     {
         return $this->model->query()
             ->with('user')
+            ->when($statuses, function ($query) use ($statuses) {
+                $query->whereIn('status', $statuses);
+            })
             ->orderBy('created_at', 'desc')
             ->paginate($perPage, ['*'], 'page', $page);
     }

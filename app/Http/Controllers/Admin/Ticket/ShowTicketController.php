@@ -21,10 +21,10 @@ class ShowTicketController extends Controller
             $ticket = $this->ticketService->getByID($id);
             
             return view('admin.tickets.show', compact('ticket'));
-        } catch (BusinessException $e) {
+        } catch (BusinessException $exception) {
             return redirect()
                 ->route('admin.dashboard')
-                ->with('error', $e->getMessage());
+                ->with('error', $exception->getMessage());
         }
     }
 }
