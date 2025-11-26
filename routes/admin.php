@@ -16,10 +16,10 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/dashboard', ListTicketController::class)->name('admin.dashboard');
     Route::get('/admin/tickets/{id}', ShowTicketController::class)->name('admin.tickets.show');
     Route::get('/admin/tickets/{id}/download', DownloadTicketFileController::class)->name('admin.tickets.download');
+    Route::post('/admin/tickets/{id}/approve')->name('admin.tickets.approve');
+    Route::post('/admin/tickets/{id}/reject')->name('admin.tickets.reject');
 });
 
 Route::post('')->name('tickets.store');
 Route::post('')->name('admin.tickets.bulk-action');
-Route::post('{id}/app')->name('admin.tickets.approve');
-Route::post('{id}/re')->name('admin.tickets.reject');
 

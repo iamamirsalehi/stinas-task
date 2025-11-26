@@ -84,50 +84,55 @@
         <div class="bg-white dark:bg-[#161615] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] rounded-lg p-8">
             <h2 class="text-xl font-semibold mb-4">Take Action</h2>
 
-            <form method="POST" action="{{ route('admin.tickets.approve', $ticket->id) }}" class="mb-6">
+            <form method="POST" action="{{ route('admin.tickets.approve', $ticket->id) }}" id="approveForm">
                 @csrf
                 <div class="mb-4">
-                    <label for="approve_note" class="block text-sm font-medium mb-2">Note (Optional)</label>
+                    <label for="action_note" class="block text-sm font-medium mb-2">Note <span class="text-[#706f6c] dark:text-[#A1A09A] text-xs"></span></label>
                     <textarea 
-                        id="approve_note" 
+                        id="action_note" 
                         name="note" 
                         rows="3" 
-                        placeholder="Add a note for approval..."
+                        placeholder="Add a note..."
                         class="w-full px-4 py-2 border border-[#e3e3e0] dark:border-[#3E3E3A] bg-white dark:bg-[#161615] rounded-sm focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
-                    >{{ old('note') }}</textarea>
-                </div>
-                <button 
-                    type="submit" 
-                    class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-sm font-medium transition-colors"
-                >
-                    Approve Ticket
-                </button>
-            </form>
-
-            <form method="POST" action="{{ route('admin.tickets.reject', $ticket->id) }}">
-                @csrf
-                <div class="mb-4">
-                    <label for="reject_note" class="block text-sm font-medium mb-2">Note <span class="text-[#f53003] dark:text-[#FF4433]">*</span></label>
-                    <textarea 
-                        id="reject_note" 
-                        name="note" 
-                        rows="3" 
-                        required
-                        placeholder="Please provide a reason for rejection..."
-                        class="w-full px-4 py-2 border border-[#e3e3e0] dark:border-[#3E3E3A] bg-white dark:bg-[#161615] rounded-sm focus:outline-none focus:ring-2 focus:ring-red-500 resize-none"
                     >{{ old('note') }}</textarea>
                     @error('note')
                         <p class="mt-1 text-sm text-[#f53003] dark:text-[#FF4433]">{{ $message }}</p>
                     @enderror
                 </div>
-                <button 
-                    type="submit" 
-                    class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-sm font-medium transition-colors"
-                >
-                    Reject Ticket
-                </button>
+                <div class="flex gap-3">
+                    <button 
+                        type="submit" 
+                        class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-sm font-medium transition-colors"
+                    >
+                        Approve Ticket
+                    </button>
+                    <button 
+                        type="button"
+                        onclick="submitReject()"
+                        class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-sm font-medium transition-colors"
+                    >
+                        Reject Ticket
+                    </button>
+                </div>
+            </form>
+
+            <form method="POST" action="{{ route('admin.tickets.reject', $ticket->id) }}" id="rejectForm" style="display: none;">
+                @csrf
+                <input type="hidden" name="note" id="reject_note_input">
             </form>
         </div>
+
+        <script>
+            function submitReject() {
+                const note = document.getElementById('action_note').value;
+                if (!note.trim()) {
+                    alert('Please provide a reason for rejection.');
+                    return;
+                }
+                document.getElementById('reject_note_input').value = note;
+                document.getElementById('rejectForm').submit();
+            }
+        </script>
     @endif
 </div>
 @endsection
