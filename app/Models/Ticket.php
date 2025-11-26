@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Enums\TicketStatus;
+use App\Exception\TicketException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Ticket extends Model
 {
@@ -14,6 +16,7 @@ class Ticket extends Model
         'description',
         'status',
         'file_path',
+        'ticket_approve_id',
     ];
 
     public function casts(): array
@@ -44,6 +47,26 @@ class Ticket extends Model
     public function hasFile(): bool
     {
         return !is_null($this->file_path);
+    }
+
+    public function approve(TicketStatus $status): void
+    {
+        $this->status = $status;
+    }
+
+    public function isSubmitted(): bool
+    {
+        return $this->status === TicketStatus::Submitted;
+    }
+
+    public function isDraft(): bool
+    {
+        return $this->status === TicketStatus::Draft;
+    }
+
+    public function isApproved()
+    {
+        return !is_null($this->ticket_approve_id);
     }
 
     public function user()

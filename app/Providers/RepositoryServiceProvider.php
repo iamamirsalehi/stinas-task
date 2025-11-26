@@ -4,12 +4,18 @@ namespace App\Providers;
 
 use App\Infrastructure\Persist\Repository\AdminRepository;
 use App\Infrastructure\Persist\Repository\Eloquent\EloquentAdminRepository;
+use App\Infrastructure\Persist\Repository\Eloquent\EloquentTicketApproveRepository;
+use App\Infrastructure\Persist\Repository\Eloquent\EloquentTicketNoteRepository;
 use App\Infrastructure\Persist\Repository\Eloquent\EloquentTicketRepository;
 use App\Infrastructure\Persist\Repository\Eloquent\EloquentUserRepository;
+use App\Infrastructure\Persist\Repository\TicketApproveRepository;
+use App\Infrastructure\Persist\Repository\TicketNoteRepository;
 use App\Infrastructure\Persist\Repository\TicketRepository;
 use App\Infrastructure\Persist\Repository\UserRepository;
 use App\Models\Admin;
 use App\Models\Ticket;
+use App\Models\TicketApprove;
+use App\Models\TicketNote;
 use App\Models\User;
 use Illuminate\Support\ServiceProvider;
 
@@ -30,6 +36,14 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(TicketRepository::class, function ($app){
             return new EloquentTicketRepository(new Ticket());
+        });
+
+        $this->app->bind(TicketApproveRepository::class, function ($app){
+            return new EloquentTicketApproveRepository(new TicketApprove());
+        });
+
+        $this->app->bind(TicketNoteRepository::class, function ($app){
+            return new EloquentTicketNoteRepository(new TicketNote());
         });
     }
 

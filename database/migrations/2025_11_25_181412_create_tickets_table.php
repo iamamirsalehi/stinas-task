@@ -21,6 +21,9 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
 
+            $table->unsignedBigInteger('ticket_approve_id')->nullable();
+            $table->foreign('ticket_approve_id')->references('id')->on('ticket_approves')->cascadeOnDelete();
+
             $table->softDeletes();
             $table->timestamps();
         });
