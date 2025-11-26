@@ -138,3 +138,32 @@ it('logs in user with correct credentials case-sensitively', function () {
     $response->assertRedirect('/dashboard');
     $this->assertAuthenticatedAs($user);
 });
+
+it('redirects authenticated user to dashboard when accessing login page', function () {
+    $user = User::factory()->create([
+        'username' => 'testuser',
+        'password' => Hash::make('password123'),
+    ]);
+
+    $this->actingAs($user);
+
+    $response = $this->get('/login');
+
+    $response->assertRedirect('/dashboard');
+});
+
+it('redirects authenticated user to dashboard when posting to login', function () {
+    $user = User::factory()->create([
+        'username' => 'testuser',
+        'password' => Hash::make('password123'),
+    ]);
+
+    $this->actingAs($user);
+
+    $response = $this->post('/login', [
+        'username' => 'testuser',
+        'password' => 'password123',
+    ]);
+
+    $response->assertRedirect('/dashboard');
+});

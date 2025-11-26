@@ -24,26 +24,38 @@
                     </a>
                 </div>
                 <div class="flex items-center gap-4">
-                    @auth
+                    @if(auth('admin')->check())
+                        {{-- Admin is logged in: hide all login buttons --}}
                         <span class="text-sm text-[#706f6c] dark:text-[#A1A09A]">
-                            {{ auth()->user()->username ?? 'User' }}
+                            {{ auth('admin')->user()->username ?? 'Admin' }}
                         </span>
-                        @if (Route::has('logout'))
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="text-sm px-4 py-2 border border-[#19140035] dark:border-[#3E3E3A] hover:border-[#1915014a] dark:hover:border-[#62605b] rounded-sm">
-                                    Logout
-                                </button>
-                            </form>
-                        @endif
                     @else
-                        <a href="{{ route('auth.login.show') }}" class="text-sm px-4 py-2 border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm">
-                            Log in
-                        </a>
+                        @auth('web')
+                            <span class="text-sm text-[#706f6c] dark:text-[#A1A09A]">
+                                {{ auth('web')->user()->username ?? 'User' }}
+                            </span>
+                            @if (Route::has('logout'))
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="text-sm px-4 py-2 border border-[#19140035] dark:border-[#3E3E3A] hover:border-[#1915014a] dark:hover:border-[#62605b] rounded-sm">
+                                        Logout
+                                    </button>
+                                </form>
+                            @endif
+                        @else
+                            <a href="{{ route('auth.login.show') }}" class="text-sm px-4 py-2 border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm">
+                                Log in
+                            </a>
                             <a href="{{ route('auth.register.show') }}" class="text-sm px-4 py-2 border border-[#19140035] dark:border-[#3E3E3A] hover:border-[#1915014a] dark:hover:border-[#62605b] rounded-sm">
                                 Register
                             </a>
-                    @endauth
+                            @if (Route::has('admin.login.show'))
+                                <a href="{{ route('admin.login.show') }}" class="text-sm px-4 py-2 border border-[#19140035] dark:border-[#3E3E3A] hover:border-[#1915014a] dark:hover:border-[#62605b] rounded-sm">
+                                    Login as admin
+                                </a>
+                            @endif
+                        @endauth
+                    @endif
                 </div>
             </div>
         </div>

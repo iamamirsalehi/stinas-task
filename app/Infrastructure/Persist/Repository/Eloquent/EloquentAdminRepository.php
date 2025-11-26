@@ -18,4 +18,14 @@ class EloquentAdminRepository extends EloquentBaseRepository implements AdminRep
 
         return $admin;
     }
+
+    public function getByUserName(string $username): Admin
+    {
+        $admin = $this->model->query()->where('username', $username)->first();
+        if (is_null($admin)){
+            throw AdminException::adminDoesNotExist();
+        }
+
+        return $admin;
+    }
 }

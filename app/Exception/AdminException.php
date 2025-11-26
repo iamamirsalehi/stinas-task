@@ -8,4 +8,9 @@ class AdminException extends BusinessException
     {
         return new self("admin does not exist");
     }
+
+    public static function usernameOrPasswordIsInvalid(): self
+    {
+        return new self('username or password is invalid');
+    }
 }

@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\Admin\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/admin/login', function () {
     return view('auth.admin-login');
-})->name('admin.login');
+})->name('admin.login.show');
+
+Route::post('/admin/login', LoginController::class)->name('admin.login');
 
 Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');
