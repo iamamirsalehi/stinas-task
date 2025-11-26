@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Persist\Repository\Eloquent;
 
+use App\Exception\TicketException;
 use App\Infrastructure\Persist\Repository\TicketRepository;
 use App\Models\Ticket;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -21,10 +22,16 @@ class EloquentTicketRepository extends EloquentBaseRepository implements TicketR
             ->paginate($perPage, ['*'], 'page', $page);
     }
 
-    public function getById(int $id): ?Ticket
+    public function getByID(int $id): Ticket
     {
-        return $this->model->query()
+        $ticket = $this->model->query()
             ->with('user')
             ->find($id);
+
+        if (is_null($ticket)){
+            throw TicketException::invalidID();
+        }
+
+        return $ticket;
     }
 }

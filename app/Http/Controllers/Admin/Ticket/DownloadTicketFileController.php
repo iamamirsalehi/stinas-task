@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Admin\Ticket;
 
-use App\Exception\TicketException;
+use App\Exception\BusinessException;
 use App\Http\Controllers\Controller;
+use App\Services\Attachment\AttachmentDownloadable;
 use App\Services\Ticket\TicketService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class DownloadTicketFileController extends Controller
 {
-    public function __construct(private TicketService $ticketService)
+    public function __construct(
+        private TicketService $ticketService,
+        private AttachmentDownloadable $attachmentDownloadable,    
+    )
     {}
     
     /**
@@ -19,16 +22,16 @@ class DownloadTicketFileController extends Controller
     public function __invoke(Request $request, int $id)
     {
         try {
-            $ticket = $this->ticketService->show($id);
+            $ticket = $this->ticketService->getByID($id);
             
-            if (!$ticket->file_path || !Storage::disk('local')->exists($ticket->file_path)) {
+            if(!$ticket->hasFile()) {
                 return redirect()
-                    ->route('admin.tickets.show', $id)
-                    ->with('error', 'File not found');
+                ->route('admin.dashboard')
+                ->with('error', 'ticket does not have file');
             }
             
-            return Storage::disk('local')->download($ticket->file_path);
-        } catch (TicketException $e) {
+            return $this->attachmentDownloadable->download($ticket->file_path);
+        } catch (BusinessException $e) {
             return redirect()
                 ->route('admin.dashboard')
                 ->with('error', $e->getMessage());

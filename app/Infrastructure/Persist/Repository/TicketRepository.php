@@ -11,5 +11,5 @@ interface TicketRepository
 
     public function list(int $perPage = 10, $page = 1): LengthAwarePaginator;
 
-    public function getById(int $id): ?Ticket;
+    public function getByID(int $id): Ticket;
 }

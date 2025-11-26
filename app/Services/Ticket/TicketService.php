@@ -41,12 +41,12 @@ class TicketService
         return $this->ticketRepository->list($perPage, $page);
     }
 
-    public function show(int $id): Ticket
+    public function getByID(int $id): Ticket
     {
-        $ticket = $this->ticketRepository->getById($id);
+        $ticket = $this->ticketRepository->getByID($id);
 
         if (!$ticket) {
-            throw TicketException::notFound();
+            throw TicketException::invalidID();
         }
 
         return $ticket;

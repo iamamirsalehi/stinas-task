@@ -41,6 +41,11 @@ class Ticket extends Model
         return $self;
     }
 
+    public function hasFile(): bool
+    {
+        return !is_null($this->file_path);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

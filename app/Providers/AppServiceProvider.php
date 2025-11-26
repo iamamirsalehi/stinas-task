@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\Attachment\AttachmentDownloadable;
 use App\Services\Attachment\AttachmentService;
 use App\Services\Attachment\LocalAttachmentService;
 use Illuminate\Support\ServiceProvider;
@@ -14,6 +15,8 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(AttachmentService::class, LocalAttachmentService::class);
+
+        $this->app->bind(AttachmentDownloadable::class, LocalAttachmentService::class);
     }
 
     /**

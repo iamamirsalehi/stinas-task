@@ -2,10 +2,12 @@
 
 namespace App\Services\Attachment;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Support\Str;
 
-class LocalAttachmentService implements AttachmentService
+class LocalAttachmentService implements AttachmentService, AttachmentDownloadable
 {
     public function __construct(private Filesystem $storage)
     {
@@ -21,5 +23,17 @@ class LocalAttachmentService implements AttachmentService
         $this->storage->put($storedPath, $fileContents);
         
         return new StoredFileInfo($storedPath);
+    }
+
+    public function download(string $filePath): StreamedResponse
+    {
+        if (! $this->storage->exists($filePath)) {
+            throw new FileNotFoundException('file not found');
+        }
+
+        $customName = basename($filePath); 
+        $headers = [];
+
+        return $this->storage->download($filePath, $customName, $headers);
     }
 }
