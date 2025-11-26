@@ -10,4 +10,6 @@ interface TicketRepository
     public function save(Ticket $ticket);
 
     public function list(int $perPage = 10, $page = 1): LengthAwarePaginator;
+
+    public function getById(int $id): ?Ticket;
 }

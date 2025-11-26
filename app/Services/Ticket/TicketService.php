@@ -40,4 +40,15 @@ class TicketService
 
         return $this->ticketRepository->list($perPage, $page);
     }
+
+    public function show(int $id): Ticket
+    {
+        $ticket = $this->ticketRepository->getById($id);
+
+        if (!$ticket) {
+            throw TicketException::notFound();
+        }
+
+        return $ticket;
+    }
 }

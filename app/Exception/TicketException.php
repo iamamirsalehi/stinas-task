@@ -8,4 +8,9 @@ class TicketException extends BusinessException
     {
         return new self('invalid per page');
     }
+
+    public static function notFound(): self
+    {
+        return new self('Ticket not found');
+    }
 }

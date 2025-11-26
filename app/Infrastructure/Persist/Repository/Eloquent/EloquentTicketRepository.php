@@ -20,4 +20,11 @@ class EloquentTicketRepository extends EloquentBaseRepository implements TicketR
             ->orderBy('created_at', 'desc')
             ->paginate($perPage, ['*'], 'page', $page);
     }
+
+    public function getById(int $id): ?Ticket
+    {
+        return $this->model->query()
+            ->with('user')
+            ->find($id);
+    }
 }
