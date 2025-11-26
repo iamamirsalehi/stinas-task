@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\User\Auth;
+namespace App\Http\Controllers\Admin\Auth;
 
 use App\Exception\BusinessException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\LoginRequest;
-use App\Services\Auth\LoginService;
+use App\Http\Requests\Admin\LoginRequest;
+use App\Services\Auth\AdminLoginService;
 use Illuminate\Http\RedirectResponse;
 
 class LoginController extends Controller
 {
-    public function __construct(private LoginService $loginService)
+    public function __construct(private AdminLoginService $adminLoginService)
     {}
+    
     /**
      * Handle the incoming request.
      */
@@ -21,10 +22,10 @@ class LoginController extends Controller
         $password = $request->get('password');
 
         try{
-            $this->loginService->login($username, $password);
+            $this->adminLoginService->login($username, $password);
             
-            return redirect()->route('dashboard.index')
-                ->with('success', 'You have been successfully logged in!');
+            return redirect()->route('admin.dashboard')
+                ->with('success', 'You have been successfully logged in as admin!');
         }catch(BusinessException $exception){
             return redirect()->back()
                 ->withInput($request->only('username'))

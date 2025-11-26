@@ -199,3 +199,33 @@ it('logs in user automatically after registration', function () {
     $user = User::where('username', 'newuser')->first();
     $this->assertAuthenticatedAs($user);
 });
+
+it('redirects authenticated user to dashboard when accessing register page', function () {
+    $user = User::factory()->create([
+        'username' => 'testuser',
+        'password' => Hash::make('password123'),
+    ]);
+
+    $this->actingAs($user);
+
+    $response = $this->get('/register');
+
+    $response->assertRedirect('/dashboard');
+});
+
+it('redirects authenticated user to dashboard when posting to register', function () {
+    $user = User::factory()->create([
+        'username' => 'testuser',
+        'password' => Hash::make('password123'),
+    ]);
+
+    $this->actingAs($user);
+
+    $response = $this->post('/register', [
+        'username' => 'newuser',
+        'password' => 'password123',
+        'password_confirmation' => 'password123',
+    ]);
+
+    $response->assertRedirect('/dashboard');
+});
