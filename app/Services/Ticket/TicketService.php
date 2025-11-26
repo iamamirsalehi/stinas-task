@@ -62,6 +62,7 @@ class TicketService
 
         if ($approve->isFinal()){
             $this->eventBus->dispatch(new TicketFinalApprovedEvent($ticket));
+            return;
         }
 
         $this->eventBus->dispatch(new TicketApprovedEvent($ticket));

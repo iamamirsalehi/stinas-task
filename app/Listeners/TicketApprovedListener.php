@@ -2,11 +2,16 @@
 
 namespace App\Listeners;
 
+use App\Events\TicketApprovedEvent;
+use App\Mail\TicketApprovedMail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Mail;
 
-class TicketApprovedListener
+class TicketApprovedListener implements ShouldQueue
 {
+    use InteractsWithQueue;
+
     /**
      * Create the event listener.
      */
@@ -18,8 +23,14 @@ class TicketApprovedListener
     /**
      * Handle the event.
      */
-    public function handle(object $event): void
+    public function handle(TicketApprovedEvent $event): void
     {
-        //
+        $ticket = $event->ticket;
+        
+        $user = $ticket->user;
+
+        if ($user && $user->email) {
+            Mail::to($user->email)->send(new TicketApprovedMail($ticket));
+        }
     }
 }
