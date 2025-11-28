@@ -1,6 +1,13 @@
 <?php
 
 use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\Admin\Ticket\ApproveController;
+use App\Http\Controllers\Admin\Ticket\BulkApproveController;
+use App\Http\Controllers\Admin\Ticket\BulkRejectController;
+use App\Http\Controllers\Admin\Ticket\DownloadTicketFileController;
+use App\Http\Controllers\Admin\Ticket\ListTicketController;
+use App\Http\Controllers\Admin\Ticket\RejectController;
+use App\Http\Controllers\Admin\Ticket\ShowTicketController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/admin/login', function () {
@@ -9,16 +16,15 @@ Route::get('/admin/login', function () {
 
 Route::post('/admin/login', LoginController::class)->name('admin.login');
 
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->name('admin.dashboard');
-
-Route::get('/admin/tickets/{id}', function ($id) {
-    return view('admin.tickets.show', ['ticket' => null]);
-})->name('admin.tickets.show');
+Route::middleware('auth:admin')->group(function () {
+    Route::get('/admin/dashboard', ListTicketController::class)->name('admin.dashboard');
+    Route::get('/admin/tickets/{id}', ShowTicketController::class)->name('admin.tickets.show');
+    Route::get('/admin/tickets/{id}/download', DownloadTicketFileController::class)->name('admin.tickets.download');
+    Route::post('/admin/tickets/{id}/approve', ApproveController::class)->name('admin.tickets.approve');
+    Route::post('/admin/tickets/{id}/reject', RejectController::class)->name('admin.tickets.reject');
+    Route::post('/admin/tickets/bulk-approve', BulkApproveController::class)->name('admin.tickets.bulk-approve');
+    Route::post('/admin/tickets/bulk-reject', BulkRejectController::class)->name('admin.tickets.bulk-reject');
+});
 
 Route::post('')->name('tickets.store');
-Route::post('')->name('admin.tickets.bulk-action');
-Route::post('{id}/app')->name('admin.tickets.approve');
-Route::post('{id}/re')->name('admin.tickets.reject');
 

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Admin as EnumsAdmin;
 use App\Models\Admin;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,12 +16,12 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         Admin::query()->firstOrCreate([
-            'username' => 'admin1',
+            'username' => EnumsAdmin::Admin1->value,
             'password' => Hash::make('password'),
         ]);
 
         Admin::query()->firstOrCreate([
-            'username' => 'admin2',
+            'username' => EnumsAdmin::Admin2->value,
             'password' => Hash::make('password'),
         ]);
     }

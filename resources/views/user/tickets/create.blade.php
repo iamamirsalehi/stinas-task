@@ -5,7 +5,7 @@
 @section('content')
 <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="mb-6">
-        <a href="{{ route('dashboard.') }}" class="text-sm text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC]">
+        <a href="{{ route('dashboard.index') }}" class="text-sm text-[#706f6c] dark:text-[#A1A09A] hover:text-[#1b1b18] dark:hover:text-[#EDEDEC]">
             ← Back to Dashboard
         </a>
     </div>
@@ -72,7 +72,7 @@
                     Submit Ticket
                 </button>
                 <a 
-                    href="{{ route('dashboard.') }}" 
+                    href="{{ route('dashboard.index') }}" 
                     class="px-6 py-2 border border-[#19140035] dark:border-[#3E3E3A] hover:border-[#1915014a] dark:hover:border-[#62605b] rounded-sm font-medium transition-colors"
                 >
                     Cancel

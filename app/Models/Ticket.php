@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Enums\TicketStatus;
+use App\Exception\TicketException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Ticket extends Model
 {
@@ -14,6 +16,7 @@ class Ticket extends Model
         'description',
         'status',
         'file_path',
+        'ticket_approve_id',
     ];
 
     public function casts(): array
@@ -39,5 +42,53 @@ class Ticket extends Model
         $self->user_id = $user->id;
 
         return $self;
+    }
+
+    public function hasFile(): bool
+    {
+        return !is_null($this->file_path);
+    }
+
+    public function approve(TicketStatus $status): void
+    {
+        if (!in_array($status, [TicketStatus::ApprovedByAdmin1, TicketStatus::ApprovedByAdmin2])) {
+            throw TicketException::canNotHaveActionOnTicket();
+        }
+
+        $this->status = $status;
+    }
+
+    public function reject(TicketStatus $status): void
+    {
+        if (!in_array($status, [TicketStatus::RejectedByAdmin1, TicketStatus::RejectedByAdmin2])) {
+            throw TicketException::canNotHaveActionOnTicket();
+        }
+
+        $this->status = $status;
+    }
+
+    public function isSubmitted(): bool
+    {
+        return $this->status === TicketStatus::Submitted;
+    }
+
+    public function isDraft(): bool
+    {
+        return $this->status === TicketStatus::Draft;
+    }
+
+    public function isApproved()
+    {
+        return !is_null($this->ticket_approve_id);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function ticketApprove()
+    {
+        return $this->belongsTo(TicketApproveStep::class, 'ticket_approve_id');
     }
 }

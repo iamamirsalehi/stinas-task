@@ -13,4 +13,9 @@ class AdminException extends BusinessException
     {
         return new self('username or password is invalid');
     }
+
+    public static function invalidAdmin(): self
+    {
+        return new self('invalid admin');
+    }
 }
