@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Events\TicketApprovedEvent;
+use App\Events\TicketFinalApprovedEvent;
 use App\Events\TicketRejectedEvent;
 use App\Listeners\TicketApprovedListener;
+use App\Listeners\TicketFinalApprovedListener;
 use App\Listeners\TicketRejectedListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -21,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         TicketRejectedEvent::class => [
             TicketRejectedListener::class,
+        ],
+        TicketFinalApprovedEvent::class => [
+            TicketFinalApprovedListener::class,
         ],
     ];
 

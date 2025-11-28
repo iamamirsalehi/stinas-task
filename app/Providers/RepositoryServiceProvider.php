@@ -4,15 +4,18 @@ namespace App\Providers;
 
 use App\Infrastructure\Persist\Repository\AdminRepository;
 use App\Infrastructure\Persist\Repository\Eloquent\EloquentAdminRepository;
+use App\Infrastructure\Persist\Repository\Eloquent\EloquentExternalServiceCallLogRepository;
 use App\Infrastructure\Persist\Repository\Eloquent\EloquentTicketApproveStepRepository;
 use App\Infrastructure\Persist\Repository\Eloquent\EloquentTicketNoteRepository;
 use App\Infrastructure\Persist\Repository\Eloquent\EloquentTicketRepository;
 use App\Infrastructure\Persist\Repository\Eloquent\EloquentUserRepository;
+use App\Infrastructure\Persist\Repository\ExternalServiceCallLogRepository;
 use App\Infrastructure\Persist\Repository\TicketApproveStepRepository;
 use App\Infrastructure\Persist\Repository\TicketNoteRepository;
 use App\Infrastructure\Persist\Repository\TicketRepository;
 use App\Infrastructure\Persist\Repository\UserRepository;
 use App\Models\Admin;
+use App\Models\ExternalServiceCallLog;
 use App\Models\Ticket;
 use App\Models\TicketApproveStep;
 use App\Models\TicketNote;
@@ -44,6 +47,10 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(TicketNoteRepository::class, function ($app){
             return new EloquentTicketNoteRepository(new TicketNote());
+        });
+
+        $this->app->bind(ExternalServiceCallLogRepository::class, function ($app){
+            return new EloquentExternalServiceCallLogRepository(new ExternalServiceCallLog());
         });
     }
 
