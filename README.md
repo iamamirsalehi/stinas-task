@@ -153,7 +153,7 @@ app/
 
 ## الگوهای طراحی استفاده شده
 
-### 1. الگوی Repository (مخزن)
+### 1. الگوی Repository
 
 الگوی Repository برای جداسازی منطق دسترسی به داده از منطق کسب‌وکار استفاده شده است.
 
@@ -205,7 +205,7 @@ $this->app->bind(TicketRepository::class, function ($app) {
 });
 ```
 
-### 2. الگوی Adapter (سازگارکننده)
+### 2. الگوی Adapter
 
 الگوی Adapter برای ارتباط با سرویس‌های خارجی استفاده شده است.
 
@@ -254,7 +254,7 @@ $this->app->bind(
 );
 ```
 
-### 3. Single Action Controller (کنترلر تک عملیاتی)
+### 3. Single Action Controller
 
 تمام کنترلرهای پروژه از الگوی Single Action Controller استفاده می‌کنند.
 
@@ -428,28 +428,6 @@ docker-compose exec app vendor/bin/pest
 ```bash
 docker-compose exec app tail -f storage/logs/laravel.log
 ```
-
----
-
-## نکات مهم
-
-1. **محیط Production**: قبل از استقرار در Production:
-   - `APP_DEBUG` را `false` قرار دهید
-   - `APP_ENV` را `production` قرار دهید
-   - رمزهای عبور پیش‌فرض را تغییر دهید
-   - از یک وب سرور مناسب (Nginx/Apache) استفاده کنید
-
-2. **امنیت**: 
-   - از HTTPS استفاده کنید
-   - رمزهای عبور را هش کنید (در حال حاضر استفاده می‌شود)
-   - اعتبارسنجی ورودی‌ها را بررسی کنید
-
-3. **بهینه‌سازی**:
-   - برای Production از OPcache استفاده کنید
-   - کش Redis را برای بهبود عملکرد در نظر بگیرید
-   - از Queue Worker برای پردازش کارهای سنگین استفاده کنید
-
----
 
 ## پشتیبانی
 
