@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Events\TicketApprovedEvent;
+use App\Events\TicketRejectedEvent;
 use App\Listeners\TicketApprovedListener;
+use App\Listeners\TicketRejectedListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -16,6 +18,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         TicketApprovedEvent::class => [
             TicketApprovedListener::class,
+        ],
+        TicketRejectedEvent::class => [
+            TicketRejectedListener::class,
         ],
     ];
 

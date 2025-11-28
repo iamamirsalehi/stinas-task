@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\Ticket;
+use App\Models\TicketApproveStep;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,7 +12,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TicketFinalApprovedEvent
+class TicketRejectedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -20,8 +21,9 @@ class TicketFinalApprovedEvent
      */
     public function __construct(
         public Ticket $ticket,
-    )
-    {
+        public TicketApproveStep $ticketApproveStep,
+        public string $note,
+    ) {
         //
     }
 
@@ -37,3 +39,4 @@ class TicketFinalApprovedEvent
         ];
     }
 }
+

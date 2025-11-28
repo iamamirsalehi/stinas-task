@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\Ticket\ApproveController;
 use App\Http\Controllers\Admin\Ticket\DownloadTicketFileController;
 use App\Http\Controllers\Admin\Ticket\ListTicketController;
+use App\Http\Controllers\Admin\Ticket\RejectController;
 use App\Http\Controllers\Admin\Ticket\ShowTicketController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +19,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/tickets/{id}', ShowTicketController::class)->name('admin.tickets.show');
     Route::get('/admin/tickets/{id}/download', DownloadTicketFileController::class)->name('admin.tickets.download');
     Route::post('/admin/tickets/{id}/approve', ApproveController::class)->name('admin.tickets.approve');
-    Route::post('/admin/tickets/{id}/reject')->name('admin.tickets.reject');
+    Route::post('/admin/tickets/{id}/reject', RejectController::class)->name('admin.tickets.reject');
 });
 
 Route::post('')->name('tickets.store');

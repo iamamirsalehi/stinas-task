@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\Ticket;
+use App\Models\TicketApproveStep;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -19,7 +20,8 @@ class TicketApprovedEvent
      * Create a new event instance.
      */
     public function __construct(
-        public Ticket $ticket
+        public Ticket $ticket,
+        public TicketApproveStep $ticketApproveStep,
     ) {
         //
     }

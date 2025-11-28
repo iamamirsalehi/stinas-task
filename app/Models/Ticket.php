@@ -51,6 +51,19 @@ class Ticket extends Model
 
     public function approve(TicketStatus $status): void
     {
+        if (!in_array($status, [TicketStatus::ApprovedByAdmin1, TicketStatus::ApprovedByAdmin2])) {
+            throw TicketException::canNotHaveActionOnTicket();
+        }
+
+        $this->status = $status;
+    }
+
+    public function reject(TicketStatus $status): void
+    {
+        if (!in_array($status, [TicketStatus::RejectedByAdmin1, TicketStatus::RejectedByAdmin2])) {
+            throw TicketException::canNotHaveActionOnTicket();
+        }
+
         $this->status = $status;
     }
 

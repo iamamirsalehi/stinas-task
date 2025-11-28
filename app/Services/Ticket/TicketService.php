@@ -4,7 +4,7 @@ namespace App\Services\Ticket;
 
 use App\Enums\TicketStatus;
 use App\Events\TicketApprovedEvent;
-use App\Events\TicketFinalApprovedEvent;
+use App\Events\TicketRejectedEvent;
 use App\Exception\TicketException;
 use App\Infrastructure\Bus\EventBus;
 use App\Infrastructure\Persist\Repository\TicketNoteRepository;
@@ -60,17 +60,34 @@ class TicketService
 
         $this->ticketNoteRepository->save($ticketNote);
 
-        if ($approve->isFinal()){
-            $this->eventBus->dispatch(new TicketFinalApprovedEvent($ticket));
-            return;
-        }
-
-        $this->eventBus->dispatch(new TicketApprovedEvent($ticket));
+        $this->eventBus->dispatch(new TicketApprovedEvent($ticket, $approve));
     }
 
-    public function reject(): void
+    public function reject(RejectTicket $rejectTicket): void
     {
+        $ticket = $this->ticketRepository->getByID($rejectTicket->ticketID);
 
+        $approve = $this->ticketApproveService->getApprove($ticket);
+
+        if (is_null($approve)){
+            throw TicketException::canNotHaveActionOnTicket();
+        }
+
+        $rejectStatus = match($approve->order) {
+            1 => TicketStatus::RejectedByAdmin1,
+            2 => TicketStatus::RejectedByAdmin2,
+            default => throw TicketException::canNotHaveActionOnTicket(),
+        };
+
+        $ticket->reject($rejectStatus);
+
+        $this->ticketRepository->save($ticket);
+
+        $ticketNote = TicketNote::new($rejectTicket->note, $ticket, $rejectTicket->admin);
+
+        $this->ticketNoteRepository->save($ticketNote);
+
+        $this->eventBus->dispatch(new TicketRejectedEvent($ticket, $approve, $rejectTicket->note));
     }
 
     public function list(int $perPage, int $page, array $statuses = []): LengthAwarePaginator
