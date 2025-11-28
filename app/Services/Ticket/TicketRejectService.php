@@ -46,5 +46,17 @@ class TicketRejectService
 
         $this->eventBus->dispatch(new TicketRejectedEvent($ticket, $approve, $rejectTicket->note));
     }
+
+    public function rejectBulk(array $ticketIDs, \App\Models\Admin $admin, ?string $note = null): void
+    {
+        foreach ($ticketIDs as $ticketID) {
+            $rejectTicket = new RejectTicket(
+                (int) $ticketID,
+                $admin,
+                $note
+            );
+            $this->reject($rejectTicket);
+        }
+    }
 }
 

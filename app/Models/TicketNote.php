@@ -13,7 +13,7 @@ class TicketNote extends Model
     ];
 
     public static function new(
-        string $note,
+        ?string $note,
         Ticket $ticket,
         Admin $admin,
     ): self

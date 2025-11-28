@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\Ticket\ApproveController;
+use App\Http\Controllers\Admin\Ticket\BulkApproveController;
+use App\Http\Controllers\Admin\Ticket\BulkRejectController;
 use App\Http\Controllers\Admin\Ticket\DownloadTicketFileController;
 use App\Http\Controllers\Admin\Ticket\ListTicketController;
 use App\Http\Controllers\Admin\Ticket\RejectController;
@@ -20,8 +22,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/tickets/{id}/download', DownloadTicketFileController::class)->name('admin.tickets.download');
     Route::post('/admin/tickets/{id}/approve', ApproveController::class)->name('admin.tickets.approve');
     Route::post('/admin/tickets/{id}/reject', RejectController::class)->name('admin.tickets.reject');
+    Route::post('/admin/tickets/bulk-approve', BulkApproveController::class)->name('admin.tickets.bulk-approve');
+    Route::post('/admin/tickets/bulk-reject', BulkRejectController::class)->name('admin.tickets.bulk-reject');
 });
 
 Route::post('')->name('tickets.store');
-Route::post('')->name('admin.tickets.bulk-action');
 

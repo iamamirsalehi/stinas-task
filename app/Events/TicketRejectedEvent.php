@@ -22,7 +22,7 @@ class TicketRejectedEvent
     public function __construct(
         public Ticket $ticket,
         public TicketApproveStep $ticketApproveStep,
-        public string $note,
+        public ?string $note,
     ) {
         //
     }

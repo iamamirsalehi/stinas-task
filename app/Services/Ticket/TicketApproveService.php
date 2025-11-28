@@ -40,5 +40,17 @@ class TicketApproveService
 
         $this->eventBus->dispatch(new TicketApprovedEvent($ticket, $approve));
     }
+
+    public function approveBulk(array $ticketIDs, \App\Models\Admin $admin, string $note = 'Bulk action'): void
+    {
+        foreach ($ticketIDs as $ticketID) {
+            $approveTicket = new ApproveTicket(
+                (int) $ticketID,
+                $note,
+                $admin
+            );
+            $this->approve($approveTicket);
+        }
+    }
 }
 

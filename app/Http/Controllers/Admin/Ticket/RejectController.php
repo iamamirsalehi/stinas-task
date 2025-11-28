@@ -20,8 +20,8 @@ class RejectController extends Controller
     {
         $rejectTicket = new RejectTicket(
             $id,
-            $request->get('note'),
             $request->user(),
+            $request->get('note'),
         );
 
         try{

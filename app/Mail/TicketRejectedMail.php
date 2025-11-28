@@ -18,7 +18,7 @@ class TicketRejectedMail extends Mailable
      */
     public function __construct(
         public Ticket $ticket,
-        public string $note,
+        public ?string $note,
     ) {
         //
     }

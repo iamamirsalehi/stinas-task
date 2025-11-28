@@ -9,9 +9,8 @@
         <p class="text-sm text-[#706f6c] dark:text-[#A1A09A] mt-1">Manage and review all tickets</p>
     </div>
 
-    <form method="POST" action="{{ route('admin.tickets.bulk-action') }}" id="bulkActionForm">
+    <form method="POST" action="" id="bulkActionForm">
         @csrf
-        <input type="hidden" name="action" id="bulkAction" value="">
         <input type="hidden" name="ticket_ids" id="bulkTicketIds" value="">
 
         <div class="mb-4 flex gap-4 items-center">
@@ -203,11 +202,17 @@
         }
 
         const ticketIds = Array.from(checkboxes).map(cb => cb.value);
-        document.getElementById('bulkAction').value = action;
         document.getElementById('bulkTicketIds').value = JSON.stringify(ticketIds);
         
+        const form = document.getElementById('bulkActionForm');
+        if (action === 'approve') {
+            form.action = '{{ route("admin.tickets.bulk-approve") }}';
+        } else {
+            form.action = '{{ route("admin.tickets.bulk-reject") }}';
+        }
+        
         if (confirm(`Are you sure you want to ${action} ${ticketIds.length} ticket(s)?`)) {
-            document.getElementById('bulkActionForm').submit();
+            form.submit();
         }
     }
 </script>
