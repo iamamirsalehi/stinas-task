@@ -30,7 +30,7 @@ class TicketApproveService
             throw TicketException::canNotHaveActionOnTicket();
         }
 
-        $ticket->approve(TicketStatus::from($approve->status));
+        $ticket->approve(TicketStatus::from($approve->status), $approve);
 
         $this->ticketRepository->save($ticket);
 
