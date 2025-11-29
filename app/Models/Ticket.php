@@ -6,6 +6,7 @@ use App\Enums\TicketStatus;
 use App\Exception\TicketException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Ticket extends Model
@@ -49,13 +50,14 @@ class Ticket extends Model
         return !is_null($this->file_path);
     }
 
-    public function approve(TicketStatus $status): void
+    public function approve(TicketStatus $status, TicketApproveStep $step): void
     {
         if (!in_array($status, [TicketStatus::ApprovedByAdmin1, TicketStatus::ApprovedByAdmin2])) {
             throw TicketException::canNotHaveActionOnTicket();
         }
 
         $this->status = $status;
+        $this->ticket_approve_id = $step->id;
     }
 
     public function reject(TicketStatus $status): void
@@ -90,5 +92,10 @@ class Ticket extends Model
     public function ticketApprove()
     {
         return $this->belongsTo(TicketApproveStep::class, 'ticket_approve_id');
+    }
+
+    public function notes()
+    {
+        return $this->hasMany(TicketNote::class)->orderBy('created_at', 'desc');
     }
 }

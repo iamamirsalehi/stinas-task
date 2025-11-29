@@ -26,4 +26,14 @@ class TicketNote extends Model
 
         return $self;
     }
+
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class);
+    }
+
+    public function ticket()
+    {
+        return $this->belongsTo(Ticket::class);
+    }
 }

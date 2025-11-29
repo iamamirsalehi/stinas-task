@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AdminSeeder::class,
-            TicketApproveSeeder::class,
+            TicketApproveStepSeeder::class,
         ]);
     }
 }

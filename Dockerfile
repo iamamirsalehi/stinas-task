@@ -4,12 +4,17 @@ RUN apk add --no-cache \
     git \
     curl \
     wget \
+    libpng \
     libpng-dev \
+    libzip \
     libzip-dev \
     zip \
     unzip \
+    oniguruma \
     oniguruma-dev \
     mysql-client \
+    nodejs \
+    npm \
     && docker-php-ext-install \
     pdo_mysql \
     mbstring \

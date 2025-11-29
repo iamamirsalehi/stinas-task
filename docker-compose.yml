@@ -3,12 +3,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: ${APP_ENV:-development}
+      target: development
     container_name: stinas-task-app
     restart: unless-stopped
     working_dir: /var/www/html
     ports:
-      - "${APP_PORT:-8000}:8000"
+      - "${APP_PORT:-4000}:8000"
     volumes:
       - ./:/var/www/html
       - ./docker/php/php.ini:/usr/local/etc/php/conf.d/custom.ini
@@ -26,20 +26,29 @@ services:
       - DB_DATABASE=${DB_DATABASE:-stinas_task}
       - DB_USERNAME=${DB_USERNAME:-stinas_user}
       - DB_PASSWORD=${DB_PASSWORD:-stinas_password}
-    command: php artisan serve --host=0.0.0.0 --port=8000
+    command: >
+      sh -c "
+        echo 'Waiting for MySQL to be ready...' &&
+        until php -r 'try { new PDO(\"mysql:host=mysql;port=3306\", \"stinas_user\", \"tbhkdbzddpbb_isamirsalehi_2024@@@AMIR\"); exit(0); } catch (Exception $e) { exit(1); }'; do
+          echo 'MySQL not ready, waiting...' &&
+          sleep 2
+        done &&
+        echo 'MySQL is ready, starting Laravel...' &&
+        php artisan serve --host=0.0.0.0 --port=8000
+      "
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8000"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
+      start_period: 60s
 
   mysql:
     image: mysql:8
     container_name: stinas-task-mysql
     restart: unless-stopped
     ports:
-      - "${DB_PORT:-3306}:3306"
+      - "${MYSQL_EXTERNAL_PORT:-13306}:3306"
     environment:
       - MYSQL_DATABASE=${DB_DATABASE:-stinas_task}
       - MYSQL_USER=${DB_USERNAME:-stinas_user}
@@ -56,19 +65,26 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
-    command: --default-authentication-plugin=mysql_native_password
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     container_name: stinas-task-phpmyadmin
     restart: unless-stopped
     ports:
-      - "${PMA_PORT:-8080}:80"
+      - "${PMA_PORT:-4002}:80"
+    volumes:
+      - ./docker/phpmyadmin/.htpasswd:/etc/phpmyadmin/.htpasswd:ro
+      - ./docker/phpmyadmin/apache-basic-auth.conf:/etc/apache2/conf-available/phpmyadmin-basic-auth.conf:ro
+      - ./docker/phpmyadmin/entrypoint.sh:/custom-entrypoint.sh:ro
     environment:
       - PMA_HOST=mysql
       - PMA_PORT=3306
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-root_password}
+      - PMA_USER=${DB_USERNAME:-stinas_user}
+      - PMA_PASSWORD=${DB_PASSWORD:-stinas_password}
+      - PMA_ARBITRARY=1
       - UPLOAD_LIMIT=300M
+    entrypoint: ["/bin/bash", "/custom-entrypoint.sh"]
     networks:
       - stinas-network
     depends_on:
@@ -79,7 +95,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: ${APP_ENV:-development}
+      target: development
     container_name: stinas-task-queue
     restart: unless-stopped
     working_dir: /var/www/html
@@ -104,7 +120,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: ${APP_ENV:-development}
+      target: development
     container_name: stinas-task-scheduler
     restart: unless-stopped
     working_dir: /var/www/html

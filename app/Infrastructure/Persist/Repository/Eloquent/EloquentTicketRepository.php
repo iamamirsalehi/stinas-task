@@ -28,7 +28,7 @@ class EloquentTicketRepository extends EloquentBaseRepository implements TicketR
     public function getByID(int $id): Ticket
     {
         $ticket = $this->model->query()
-            ->with(['user'])
+            ->with(['user', 'notes.admin'])
             ->find($id);
 
         if (is_null($ticket)){

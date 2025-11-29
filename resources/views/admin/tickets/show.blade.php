@@ -66,10 +66,30 @@
             </div>
         @endif
 
-        @if($ticket->admin_note ?? false)
-            <div class="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-sm">
-                <h2 class="text-lg font-medium mb-2">Admin Note</h2>
-                <p class="text-sm text-[#706f6c] dark:text-[#A1A09A]">{{ $ticket->admin_note }}</p>
+        @if($ticket->notes && $ticket->notes->count() > 0)
+            <div class="mb-6">
+                <h2 class="text-lg font-medium mb-4">Notes History</h2>
+                <div class="space-y-4">
+                    @foreach($ticket->notes as $note)
+                        <div class="p-4 bg-[#FDFDFC] dark:bg-[#0a0a0a] border border-[#e3e3e0] dark:border-[#3E3E3A] rounded-sm">
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC]">
+                                        {{ $note->admin->name ?? $note->admin->username ?? 'Admin' }}
+                                    </span>
+                                </div>
+                                <span class="text-xs text-[#706f6c] dark:text-[#A1A09A]">
+                                    {{ $note->created_at ? $note->created_at->format('M d, Y H:i') : '' }}
+                                </span>
+                            </div>
+                            @if($note->note)
+                                <p class="text-sm text-[#706f6c] dark:text-[#A1A09A] whitespace-pre-wrap">{{ $note->note }}</p>
+                            @else
+                                <p class="text-sm text-[#706f6c] dark:text-[#A1A09A] italic">No note provided</p>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
             </div>
         @endif
     </div>
@@ -80,7 +100,6 @@
             : ($ticket->status ?? 'submitted');
     @endphp
     
-    @if($statusValue === 'submitted')
         <div class="bg-white dark:bg-[#161615] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] rounded-lg p-8">
             <h2 class="text-xl font-semibold mb-4">Take Action</h2>
 
@@ -133,7 +152,6 @@
                 document.getElementById('rejectForm').submit();
             }
         </script>
-    @endif
 </div>
 @endsection
 
