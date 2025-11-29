@@ -57,7 +57,7 @@ chmod +x docker/setup.sh
 
 - **اپلیکیشن**: http://localhost:4000
 - **PHPMyAdmin**: http://localhost:4002
-- **MySQL**: localhost:4001
+- **MySQL**: localhost:13306
 
 #### 4. اطلاعات دسترسی PHPMyAdmin
 
@@ -74,6 +74,20 @@ chmod +x docker/setup.sh
 
 **نکته**: می‌توانید اطلاعات HTTP Basic Authentication را در فایل `.env` با تغییر `PMA_USER` و `PMA_PASSWORD` تغییر دهید.
 
+#### 5. راه‌اندازی دیتابیس
+
+پس از راه‌اندازی کانتینرها، باید جداول دیتابیس را ایجاد و داده‌های اولیه را وارد کنید:
+
+```bash
+# اجرای مایگریشن‌ها
+docker-compose exec app php artisan migrate
+
+# اجرای سیدر برای ایجاد داده‌های اولیه (ادمین‌ها و مراحل تایید)
+docker-compose exec app php artisan db:seed
+```
+
+**نکته**: اجرای سیدر برای استفاده از حساب‌های ادمین پیش‌فرض ضروری است.
+
 ### دستورات مفید Docker
 
 ```bash
@@ -83,6 +97,12 @@ docker-compose logs -f mysql
 
 # اجرای دستورات Artisan
 docker-compose exec app php artisan [command]
+
+# اجرای مایگریشن‌ها
+docker-compose exec app php artisan migrate
+
+# اجرای سیدر
+docker-compose exec app php artisan db:seed
 
 # دسترسی به شل کانتینر
 docker-compose exec app sh

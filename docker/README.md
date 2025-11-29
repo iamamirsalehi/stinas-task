@@ -43,7 +43,7 @@ This project is containerized using Docker and Docker Compose.
 ## Services
 
 - **app**: Laravel application (PHP 8.3) - http://localhost:4000
-- **mysql**: MySQL 8 database - port 4001 (external), 3306 (internal)
+- **mysql**: MySQL 8 database - port 13306 (external), 3306 (internal)
 - **phpmyadmin**: PHPMyAdmin interface - http://localhost:4002
 - **queue**: Laravel queue worker (optional)
 - **scheduler**: Laravel task scheduler (optional)
@@ -90,7 +90,7 @@ docker-compose exec app php artisan test
 
 Key environment variables can be set in `.env` file:
 - `APP_PORT`: Application port (default: 4000)
-- `DB_PORT`: MySQL external port (default: 4001)
+- `DB_PORT`: MySQL external port (default: 13306)
 - `DB_DATABASE`: Database name
 - `DB_USERNAME`: Database user
 - `DB_PASSWORD`: Database password
@@ -102,7 +102,7 @@ Key environment variables can be set in `.env` file:
 ## Database Access
 
 - **Host**: mysql (from within containers) or localhost (from host)
-- **Port**: 3306 (from within containers) or 4001 (from host)
+- **Port**: 3306 (from within containers) or 13306 (from host)
 - **Username**: Set via `DB_USERNAME` (default: stinas_user)
 - **Password**: Set via `DB_PASSWORD` (default: stinas_password)
 

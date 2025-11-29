@@ -23,6 +23,7 @@ class TicketApproveStepSeeder extends Seeder
         ], [
             'order' => 1,
             'status' => TicketStatus::ApprovedByAdmin1->value,
+            'is_final' => 0,
         ]);
 
         $admin2 = Admin::query()->where('username', EnumsAdmin::Admin2->value)->first();
@@ -32,6 +33,7 @@ class TicketApproveStepSeeder extends Seeder
         ], [
             'order' => 2,
             'status' => TicketStatus::ApprovedByAdmin2->value,
+            'is_final'=>1,
         ]);
     }
 }

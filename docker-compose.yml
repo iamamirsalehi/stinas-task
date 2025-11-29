@@ -48,7 +48,7 @@ services:
     container_name: stinas-task-mysql
     restart: unless-stopped
     ports:
-      - "${DB_PORT:-4001}:3306"
+      - "${MYSQL_EXTERNAL_PORT:-13306}:3306"
     environment:
       - MYSQL_DATABASE=${DB_DATABASE:-stinas_task}
       - MYSQL_USER=${DB_USERNAME:-stinas_user}
@@ -80,6 +80,9 @@ services:
       - PMA_HOST=mysql
       - PMA_PORT=3306
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-root_password}
+      - PMA_USER=${DB_USERNAME:-stinas_user}
+      - PMA_PASSWORD=${DB_PASSWORD:-stinas_password}
+      - PMA_ARBITRARY=1
       - UPLOAD_LIMIT=300M
     entrypoint: ["/bin/bash", "/custom-entrypoint.sh"]
     networks:
