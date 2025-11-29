@@ -185,7 +185,6 @@ app/Infrastructure/Persist/Repository/
 #### مثال استفاده:
 
 ```php
-// در Service
 class TicketService
 {
     public function __construct(
@@ -194,7 +193,6 @@ class TicketService
     
     public function add(AddNewTicket $addNewTicket): void
     {
-        // استفاده از Repository بدون وابستگی به Eloquent
         $ticket = new Ticket(...);
         $this->ticketRepository->save($ticket);
     }
