@@ -51,38 +51,28 @@ chmod +x docker/setup.sh
 ./docker/setup.sh
 ```
 
-**روش دوم: راه‌اندازی دستی**
-
-```bash
-# کپی فایل محیطی
-cp .env.docker.example .env
-
-# ساخت و اجرای کانتینرها
-docker-compose up -d --build
-
-# تولید کلید اپلیکیشن
-docker-compose exec app php artisan key:generate
-
-# اجرای مایگریشن‌ها
-docker-compose exec app php artisan migrate
-
-# اجرای سیدرها (ایجاد ادمین‌های پیش‌فرض)
-docker-compose exec app php artisan db:seed
-
-# نصب وابستگی‌های npm
-docker-compose exec app npm install
-
-# ساخت فایل‌های استاتیک
-docker-compose exec app npm run build
-```
-
 #### 3. دسترسی به سرویس‌ها
 
 پس از راه‌اندازی، سرویس‌های زیر در دسترس خواهند بود:
 
-- **اپلیکیشن**: http://localhost:8000
-- **PHPMyAdmin**: http://localhost:8080
-- **MySQL**: localhost:3306
+- **اپلیکیشن**: http://localhost:4000
+- **PHPMyAdmin**: http://localhost:4002
+- **MySQL**: localhost:4001
+
+#### 4. اطلاعات دسترسی PHPMyAdmin
+
+برای دسترسی به PHPMyAdmin:
+
+1. به آدرس http://localhost:4002 بروید
+2. در پنجره HTTP Basic Authentication:
+   - **نام کاربری**: `admin`
+   - **رمز عبور**: `admin123`
+3. پس از ورود، در صفحه PHPMyAdmin از اطلاعات زیر استفاده کنید:
+   - **Server**: `mysql` (یا خالی بگذارید)
+   - **Username**: `stinas_user` (یا `root` برای دسترسی کامل)
+   - **Password**: رمز عبور MySQL از فایل `.env` (`DB_PASSWORD` یا `DB_ROOT_PASSWORD`)
+
+**نکته**: می‌توانید اطلاعات HTTP Basic Authentication را در فایل `.env` با تغییر `PMA_USER` و `PMA_PASSWORD` تغییر دهید.
 
 ### دستورات مفید Docker
 
@@ -135,11 +125,7 @@ app/
 
 1. **نیاز به بحث با متخصص دامنه (Domain Expert)**: برای تعیین مرزهای دقیق ماژول‌ها (Bounded Contexts) نیاز به مشورت با متخصص دامنه وجود دارد. بدون درک کامل از مرزهای کسب‌وکار، ماژولار کردن می‌تواند منجر به طراحی نادرست شود.
 
-2. **پیچیدگی اضافی**: در پروژه‌های کوچک تا متوسط، ماژولار کردن می‌تواند پیچیدگی غیرضروری ایجاد کند و سرعت توسعه را کاهش دهد.
-
-3. **عدم قطعیت در مرزها**: تا زمانی که مرزهای دقیق دامنه مشخص نشده‌اند، بهتر است از ساختار ساده‌تر استفاده شود و در صورت نیاز، در آینده به معماری ماژولار مهاجرت کرد.
-
-4. **سادگی نگهداری**: ساختار فعلی برای تیم کوچک و پروژه در حال توسعه مناسب‌تر است.
+2. **عدم قطعیت در مرزها**: تا زمانی که مرزهای دقیق دامنه مشخص نشده‌اند، بهتر است از ساختار ساده‌تر استفاده شود و در صورت نیاز، در آینده به معماری ماژولار مهاجرت کرد.
 
 ### جداسازی لایه‌ها
 
@@ -296,7 +282,7 @@ Route::post('/admin/tickets/{id}/approve', ApproveController::class)
 
 ### ورود به عنوان کاربر (User)
 
-1. به آدرس http://localhost:8000 بروید
+1. به آدرس http://localhost:4000 بروید
 2. روی لینک "Login" کلیک کنید یا به آدرس `/login` بروید
 3. نام کاربری و رمز عبور خود را وارد کنید
 4. پس از ورود موفق، به داشبورد کاربر هدایت می‌شوید
@@ -305,7 +291,7 @@ Route::post('/admin/tickets/{id}/approve', ApproveController::class)
 
 ### ورود به عنوان ادمین (Admin)
 
-1. به آدرس http://localhost:8000/admin/login بروید
+1. به آدرس http://localhost:4000/admin/login بروید
 2. نام کاربری و رمز عبور ادمین را وارد کنید
 
 #### حساب‌های ادمین پیش‌فرض:

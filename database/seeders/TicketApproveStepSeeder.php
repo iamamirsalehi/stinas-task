@@ -9,7 +9,7 @@ use App\Models\TicketApproveStep;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class TicketApproveSeeder extends Seeder
+class TicketApproveStepSeeder extends Seeder
 {
     /**
      * Run the database seeds.

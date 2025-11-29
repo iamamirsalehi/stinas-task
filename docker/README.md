@@ -42,9 +42,9 @@ This project is containerized using Docker and Docker Compose.
 
 ## Services
 
-- **app**: Laravel application (PHP 8.3) - http://localhost:8000
-- **mysql**: MySQL 8 database - port 3306
-- **phpmyadmin**: PHPMyAdmin interface - http://localhost:8080
+- **app**: Laravel application (PHP 8.3) - http://localhost:4000
+- **mysql**: MySQL 8 database - port 4001 (external), 3306 (internal)
+- **phpmyadmin**: PHPMyAdmin interface - http://localhost:4002
 - **queue**: Laravel queue worker (optional)
 - **scheduler**: Laravel task scheduler (optional)
 
@@ -89,26 +89,40 @@ docker-compose exec app php artisan test
 ## Environment Variables
 
 Key environment variables can be set in `.env` file:
-- `APP_PORT`: Application port (default: 8000)
+- `APP_PORT`: Application port (default: 4000)
+- `DB_PORT`: MySQL external port (default: 4001)
 - `DB_DATABASE`: Database name
 - `DB_USERNAME`: Database user
 - `DB_PASSWORD`: Database password
 - `DB_ROOT_PASSWORD`: MySQL root password
-- `PMA_PORT`: PHPMyAdmin port (default: 8080)
+- `PMA_PORT`: PHPMyAdmin port (default: 4002)
+- `PMA_USER`: PHPMyAdmin HTTP Basic Auth username (default: admin)
+- `PMA_PASSWORD`: PHPMyAdmin HTTP Basic Auth password (default: admin123)
 
 ## Database Access
 
 - **Host**: mysql (from within containers) or localhost (from host)
-- **Port**: 3306
+- **Port**: 3306 (from within containers) or 4001 (from host)
 - **Username**: Set via `DB_USERNAME` (default: stinas_user)
 - **Password**: Set via `DB_PASSWORD` (default: stinas_password)
 
 ## PHPMyAdmin Access
 
-- **URL**: http://localhost:8080
-- **Server**: mysql
-- **Username**: Use `DB_USERNAME` or `root`
-- **Password**: Use `DB_PASSWORD` or `DB_ROOT_PASSWORD`
+### HTTP Basic Authentication
+
+When accessing PHPMyAdmin, you'll first be prompted for HTTP Basic Authentication:
+
+- **URL**: http://localhost:4002
+- **Username**: `admin` (set via `PMA_USER` in `.env`)
+- **Password**: `admin123` (set via `PMA_PASSWORD` in `.env`)
+
+### MySQL Login
+
+After passing HTTP Basic Authentication, use these credentials to log into MySQL:
+
+- **Server**: `mysql` (or leave as default)
+- **Username**: Use `DB_USERNAME` (default: `stinas_user`) or `root` for full access
+- **Password**: Use `DB_PASSWORD` or `DB_ROOT_PASSWORD` from `.env`
 
 ## Production Considerations
 
