@@ -79,10 +79,10 @@ chmod +x docker/setup.sh
 پس از راه‌اندازی کانتینرها، باید جداول دیتابیس را ایجاد و داده‌های اولیه را وارد کنید:
 
 ```bash
-# اجرای مایگریشن‌ها
+# Run migration
 docker-compose exec app php artisan migrate
 
-# اجرای سیدر برای ایجاد داده‌های اولیه (ادمین‌ها و مراحل تایید)
+# Run seeder
 docker-compose exec app php artisan db:seed
 ```
 
@@ -91,32 +91,24 @@ docker-compose exec app php artisan db:seed
 ### دستورات مفید Docker
 
 ```bash
-# مشاهده لاگ‌ها
+# Logs
 docker-compose logs -f app
 docker-compose logs -f mysql
 
-# اجرای دستورات Artisan
 docker-compose exec app php artisan [command]
 
-# اجرای مایگریشن‌ها
 docker-compose exec app php artisan migrate
 
-# اجرای سیدر
 docker-compose exec app php artisan db:seed
 
-# دسترسی به شل کانتینر
 docker-compose exec app sh
 
-# توقف سرویس‌ها
 docker-compose down
 
-# توقف و حذف حجم‌ها (هشدار: داده‌های دیتابیس حذف می‌شود)
 docker-compose down -v
 
-# ساخت مجدد کانتینرها
 docker-compose build --no-cache
 
-# اجرای تست‌ها
 docker-compose exec app php artisan test
 ```
 
@@ -185,7 +177,6 @@ app/Infrastructure/Persist/Repository/
 #### مثال استفاده:
 
 ```php
-// در Service
 class TicketService
 {
     public function __construct(
@@ -194,7 +185,6 @@ class TicketService
     
     public function add(AddNewTicket $addNewTicket): void
     {
-        // استفاده از Repository بدون وابستگی به Eloquent
         $ticket = new Ticket(...);
         $this->ticketRepository->save($ticket);
     }
@@ -237,7 +227,6 @@ interface ExternalServiceAdapter
     public function sendTicket(Ticket $ticket): bool;
 }
 
-// در Listener
 class TicketFinalApprovedListener
 {
     public function __construct(
@@ -277,7 +266,6 @@ class ApproveController extends Controller
     
     public function __invoke(ApproveRequest $request, int $id): RedirectResponse
     {
-        // منطق کنترلر
     }
 }
 ```
