@@ -422,11 +422,6 @@ docker-compose exec app vendor/bin/pest
 ```bash
 docker-compose exec app tail -f storage/logs/laravel.log
 ```
-
-## پشتیبانی
-
-برای سوالات و مشکلات، لطفاً Issue ایجاد کنید یا با تیم توسعه تماس بگیرید.
-
 ---
 
 **نسخه مستندات**: 1.0  
