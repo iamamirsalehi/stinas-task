@@ -227,7 +227,6 @@ interface ExternalServiceAdapter
     public function sendTicket(Ticket $ticket): bool;
 }
 
-// در Listener
 class TicketFinalApprovedListener
 {
     public function __construct(
@@ -267,7 +266,6 @@ class ApproveController extends Controller
     
     public function __invoke(ApproveRequest $request, int $id): RedirectResponse
     {
-        // منطق کنترلر
     }
 }
 ```
